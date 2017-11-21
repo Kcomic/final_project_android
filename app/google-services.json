@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "784610895653",
+    "firebase_url": "https://trade-event.firebaseio.com",
+    "project_id": "trade-event",
+    "storage_bucket": "trade-event.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784610895653:android:d177e48b6dd5ef99",
+        "android_client_info": {
+          "package_name": "kmitl.mobile.project.bawonsak58070074.tradeevent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784610895653-sa8dronsc84eu73bacd8ct19eis6eu1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAukXc2UhVR9ndEHBJCouCByOpNucMLQeg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
