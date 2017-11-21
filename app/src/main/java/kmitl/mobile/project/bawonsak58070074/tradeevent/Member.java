@@ -32,6 +32,18 @@ public class Member implements Parcelable {
         nickname = in.readString();
     }
 
+    public static final Creator<Member> CREATOR = new Creator<Member>() {
+        @Override
+        public Member createFromParcel(Parcel in) {
+            return new Member(in);
+        }
+
+        @Override
+        public Member[] newArray(int size) {
+            return new Member[size];
+        }
+    };
+
     public String getPhone() {
         return phone;
     }
@@ -78,5 +90,21 @@ public class Member implements Parcelable {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(email);
+        dest.writeString(rating);
+        dest.writeString(phone);
+        dest.writeString(fullname);
+        dest.writeString(nickname);
+
     }
 }

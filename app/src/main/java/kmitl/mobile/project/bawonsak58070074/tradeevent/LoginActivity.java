@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.Clock;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AnimateIntent {
     EditText usernameEdt, passwordEdt;
     DatabaseReference mRootRef;
     Button loginBtn;
@@ -50,16 +50,10 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
         final String username = usernameEdt.getText().toString();
         final String password = passwordEdt.getText().toString();
-        if(username == null || username.equals("")){
+        if(username == null || username.equals("") || password == null || password.equals("")){
             error = true;
             errorRequied = true;
-            errorMessage = "Username is required";
-            return;
-        }
-        if(password == null || password.equals("")){
-            error = true;
-            errorRequied = true;
-            errorMessage = "Password is required";
+            errorMessage = "Please complete informations";
             return;
         }
         errorRequied = false;

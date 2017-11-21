@@ -119,11 +119,13 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/phone"
-                    android:inputType="textPhonetic" />
+                    android:inputType="phone"
+                    android:digits="0123456789+"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/loginBtn"
+                android:id="@+id/signUpBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -154,7 +156,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/progressBar1"
+        android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AnimateIntent {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
