@@ -33,13 +33,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         setup();
-
+        ResetColor();
         fragmentManager = getSupportFragmentManager();
         homeBtn.setOnClickListener(this);
         eventBtn.setOnClickListener(this);
         searchBtn.setOnClickListener(this);
         ratingBtn.setOnClickListener(this);
         profileBtn.setOnClickListener(this);
+
+        homeTv.setTextColor(Color.parseColor("#ff4656"));
+        homeIv.setBackground(getResources().getDrawable(R.drawable.ic_press_home));
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, new HomeFragment())
+                .commit();
 
     }
     private void setup(){
@@ -68,40 +74,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(R.id.homeBtn == view.getId()){
             ResetColor();
             homeTv.setTextColor(Color.parseColor("#ff4656"));
+            homeIv.setBackground(getResources().getDrawable(R.drawable.ic_press_home));
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new HomeFragment())
                     .commit();
         } else if (R.id.eventBtn == view.getId()){
             ResetColor();
-            eventBtn.setBackgroundColor(Color.parseColor("#b2aeae"));
+            eventTv.setTextColor(Color.parseColor("#ff4656"));
+            eventIv.setBackground(getResources().getDrawable(R.drawable.ic_press_event));
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new EventFragment())
                     .commit();
         } else if (R.id.SearchBtn == view.getId()){
             ResetColor();
-            searchBtn.setBackgroundColor(Color.parseColor("#b2aeae"));
+            searchTv.setTextColor(Color.parseColor("#ff4656"));
+            searchIv.setBackground(getResources().getDrawable(R.drawable.ic_press_search));
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new SearchFragment())
                     .commit();
         } else if (R.id.ratingBtn == view.getId()){
             ResetColor();
-            ratingBtn.setBackgroundColor(Color.parseColor("#b2aeae"));
+            ratingTv.setTextColor(Color.parseColor("#ff4656"));
+            ratingIv.setBackground(getResources().getDrawable(R.drawable.ic_press_rating));
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new RatingFragment())
                     .commit();
         } else if (R.id.profileBtn == view.getId()){
             ResetColor();
-            profileBtn.setBackgroundColor(Color.parseColor("#b2aeae"));
+            profileTv.setTextColor(Color.parseColor("#ff4656"));
+            profileIv.setBackground(getResources().getDrawable(R.drawable.ic_press_user));
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new ProfileFragment())
                     .commit();
         }
     }
     private void ResetColor(){
-        homeTv.setTextColor(Color.parseColor("#ff4656"));
-        homeTv.setTextColor(Color.parseColor("#ff4656"));
-        homeTv.setTextColor(Color.parseColor("#ff4656"));
-        homeTv.setTextColor(Color.parseColor("#ff4656"));
-        homeTv.setTextColor(Color.parseColor("#ff4656"));
+        homeTv.setTextColor(Color.parseColor("#727272"));
+        eventTv.setTextColor(Color.parseColor("#727272"));
+        searchTv.setTextColor(Color.parseColor("#727272"));
+        ratingTv.setTextColor(Color.parseColor("#727272"));
+        profileTv.setTextColor(Color.parseColor("#727272"));
+        homeIv.setBackground(getResources().getDrawable(R.drawable.ic_menu_home));
+        eventIv.setBackground(getResources().getDrawable(R.drawable.ic_action_name));
+        searchIv.setBackground(getResources().getDrawable(R.drawable.ic_menu_search));
+        ratingIv.setBackground(getResources().getDrawable(R.drawable.ic_menu_rating));
+        profileIv.setBackground(getResources().getDrawable(R.drawable.ic_menu_user));
     }
 }
