@@ -3,12 +3,10 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,8 +15,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.time.Clock;
 import java.util.Map;
+
+import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class LoginActivity extends AnimateIntent {
     EditText usernameEdt, passwordEdt;
@@ -106,6 +105,7 @@ public class LoginActivity extends AnimateIntent {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 spinner.setVisibility(View.GONE);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         }
     };
