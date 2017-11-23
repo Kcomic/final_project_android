@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.RatingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/memberList"
         android:layout_height="match_parent"
-        android:text="RatingFragment" />
+        android:layout_width="match_parent" />
 
 </FrameLayout>
