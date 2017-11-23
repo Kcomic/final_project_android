@@ -1,47 +1,52 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.File;
+
+import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
+
+import static android.app.Activity.RESULT_OK;
+
 public class ProfileFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private static final int PICK_SOMETHING = 1;
+    private StorageReference storageReference;
+    private TextView text;
+    private Button button;
+    private Uri uri;
+    private Member member;
+    ImageView profile_image;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static ProfileFragment newInstance(Member member) {
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        ProfileFragment fragment = new ProfileFragment();
+        args.putParcelable("member", member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,17 +54,73 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        storageReference = FirebaseStorage.getInstance().getReference();
+        member = getArguments().getParcelable("member");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+
+
+        profile_image = rootView.findViewById(R.id.profile_image);
+        button = rootView.findViewById(R.id.btn_upload);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getContent();
+            }
+        });
+        return rootView;
+    }
+
+    private void getContent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_SOMETHING);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_SOMETHING) {
+                uri = data.getData();
+                upload(uri);
+            }
+        }
+    }
+
+
+    private void upload(final Uri file) {
+        StorageReference referent = storageReference.child("member/"+member.getUsername());
+
+
+        referent.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getActivity(),"Download "+taskSnapshot.getDownloadUrl(),Toast.LENGTH_SHORT).show();
+                Log.i("onSuccess", "Download : " + taskSnapshot.getDownloadUrl() );
+                try {
+
+
+                    Bitmap bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), file);
+                    profile_image.setImageBitmap(bm);
+                } catch (Exception e){
+
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("onFailure",e.toString());
+                Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 }

@@ -1,5 +1,6 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent.model;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,14 +15,16 @@ public class Member implements Parcelable {
     String phone;
     String fullname;
     String nickname;
+    String url;
 
-    public Member(String username, String email, String rating, String phone, String fullname, String nickname) {
+    public Member(String username, String email, String rating, String phone, String fullname, String nickname, String url) {
         this.username = username;
         this.email = email;
         this.rating = rating;
         this.phone = phone;
         this.fullname = fullname;
         this.nickname = nickname;
+        this.url = url;
     }
     protected Member(Parcel in) {
         username = in.readString();
@@ -30,6 +33,7 @@ public class Member implements Parcelable {
         phone = in.readString();
         fullname = in.readString();
         nickname = in.readString();
+        url = in.readString();
     }
 
     public static final Creator<Member> CREATOR = new Creator<Member>() {
@@ -92,6 +96,14 @@ public class Member implements Parcelable {
         this.rating = rating;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -105,6 +117,7 @@ public class Member implements Parcelable {
         dest.writeString(phone);
         dest.writeString(fullname);
         dest.writeString(nickname);
+        dest.writeString(url);
 
     }
 }

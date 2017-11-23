@@ -20,13 +20,14 @@ import java.util.Map;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class LoginActivity extends AnimateIntent {
-    EditText usernameEdt, passwordEdt;
-    DatabaseReference mRootRef;
-    Button loginBtn;
+    private EditText usernameEdt, passwordEdt;
+    private DatabaseReference mRootRef;
+    private Button loginBtn;
     private boolean error = false;
     private String errorMessage = null;
     private boolean errorRequied = false;
     private ProgressBar spinner;
+    private Member member;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class LoginActivity extends AnimateIntent {
                     return;
                 }
                 error = false;
-                Member member = new Member(username, user.get("email").toString(), user.get("rating").toString(), user.get("phone").toString(), user.get("fullname").toString(), user.get("nickname").toString());
+                member = new Member(username, user.get("email").toString(), user.get("rating").toString(), user.get("phone").toString(), user.get("fullname").toString(), user.get("nickname").toString(), user.get("url").toString());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -104,6 +105,7 @@ public class LoginActivity extends AnimateIntent {
             } else {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 spinner.setVisibility(View.GONE);
+                intent.putExtra("member", member);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }

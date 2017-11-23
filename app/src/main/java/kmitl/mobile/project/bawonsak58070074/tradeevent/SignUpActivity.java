@@ -27,6 +27,7 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
     private String fullname, nickname, username, password, email, phone;
     private ProgressBar spinner;
     Button signUpBtn;
+    Member member;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
 
                 error = false;
                 insert();
-                Member member = new Member(username, email, "0", phone, fullname, nickname);
+                member = new Member(username, email, "0", phone, fullname, nickname, "new");
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -107,6 +108,7 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
         member.child("rating").setValue("0");
         member.child("fullname").setValue(fullname);
         member.child("nickname").setValue(nickname);
+        member.child("url").setValue("new");
     }
 
     public void check(){
@@ -128,6 +130,7 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
                 Toast.makeText(SignUpActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                intent.putExtra("member", member);
                 spinner.setVisibility(View.GONE);
                 startActivity(intent);
             }

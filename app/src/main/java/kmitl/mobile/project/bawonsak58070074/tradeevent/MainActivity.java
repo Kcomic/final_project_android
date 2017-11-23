@@ -1,5 +1,6 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,12 +21,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout homeBtn, eventBtn, searchBtn, ratingBtn, profileBtn;
     private TextView homeTv, eventTv, searchTv, ratingTv, profileTv;
     private ImageView homeIv, eventIv, searchIv, ratingIv, profileIv;
     FragmentManager fragmentManager;
+    Member member;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         homeTv.setTextColor(Color.parseColor("#ff4656"));
         homeIv.setBackground(getResources().getDrawable(R.drawable.ic_press_home));
+        Intent intent = getIntent();
+        member = intent.getParcelableExtra("member");
         fragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, new HomeFragment())
                 .commit();
@@ -104,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             profileTv.setTextColor(Color.parseColor("#ff4656"));
             profileIv.setBackground(getResources().getDrawable(R.drawable.ic_press_user));
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new ProfileFragment())
+                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member))
                     .commit();
         }
     }
