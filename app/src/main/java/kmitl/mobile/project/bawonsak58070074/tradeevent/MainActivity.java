@@ -20,6 +20,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -53,13 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeTv.setTextColor(Color.parseColor("#ff4656"));
         homeIv.setImageResource(R.drawable.ic_press_home);
         Intent intent = getIntent();
-
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String string = dateFormat.format(date);
-        Log.i("a", string);
-
-
         member = intent.getParcelableExtra("member");
         fragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, new HomeFragment())
@@ -116,14 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ratingTv.setTextColor(Color.parseColor("#ff4656"));
             ratingIv.setImageResource(R.drawable.ic_press_rating);
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new RatingFragment())
+                    .replace(R.id.fragmentContainer, new RatingFragment().newInstance(member))
                     .commit();
         } else if (R.id.profileBtn == view.getId()){
             ResetColor();
             profileTv.setTextColor(Color.parseColor("#ff4656"));
             profileIv.setImageResource(R.drawable.ic_press_user);
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member))
+                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member, 1))
                     .commit();
         }
     }

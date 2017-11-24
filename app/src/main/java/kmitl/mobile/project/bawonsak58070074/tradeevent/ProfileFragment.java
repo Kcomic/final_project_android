@@ -1,6 +1,8 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
+import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.Holder.MemberHolder;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 import static android.app.Activity.RESULT_OK;
@@ -38,9 +42,11 @@ public class ProfileFragment extends Fragment {
 
     private static final int PICK_SOMETHING = 1;
     private StorageReference storageReference;
-    private TextView name, phone, rating;
+    private TextView name, phone, rating, ratingUp;
     private Uri uri;
+    private int check;
     private Member member;
+    private String username;
     ImageView profile_image;
     private DatabaseReference mRootRef, mUsersRef;
 
@@ -48,10 +54,11 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(Member member) {
+    public static ProfileFragment newInstance(Member member, int check) {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
         args.putParcelable("member", member);
+        args.putInt("check", check);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,8 +68,10 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         storageReference = FirebaseStorage.getInstance().getReference();
         member = getArguments().getParcelable("member");
+        check = getArguments().getInt("check");
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mUsersRef = mRootRef.child("member");
+        username = member.getUsername();
     }
 
     @Override
@@ -72,14 +81,24 @@ public class ProfileFragment extends Fragment {
         profile_image = rootView.findViewById(R.id.profile_image);
         phone = rootView.findViewById(R.id.phonePro);
         rating = rootView.findViewById(R.id.ratingPro);
+        ratingUp = rootView.findViewById(R.id.ratingUp);
+        if(check == 1) ratingUp.setVisibility(View.GONE);
+        else ratingUp.setVisibility(View.VISIBLE);
         name = rootView.findViewById(R.id.fullname);
-        profile_image.setOnClickListener(new View.OnClickListener() {
+        if(check == 1) {
+            profile_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getContent();
+                }
+            });
+        }
+        ratingUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getContent();
+                vote();
             }
         });
-
         showProfile();
         return rootView;
     }
@@ -103,7 +122,6 @@ public class ProfileFragment extends Fragment {
 
 
     private void upload(final Uri file) {
-        String username = member.getUsername();
         StorageReference referent = storageReference.child("member/"+username);
         final DatabaseReference memberDr = mUsersRef.child(username);
 
@@ -133,10 +151,41 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showProfile(){
-        Picasso.with(getContext()).load(member.getUrl()).fit().into(profile_image);
+        //Picasso.with(getContext()).load(member.getUrl()).fit().into(profile_image);
+        if(!member.getUrl().equals("new")) Glide.with(getContext()).load(member.getUrl()).into(profile_image);
         name.setText(member.getFullname());
         phone.setText(member.getPhone());
         rating.setText(member.getRating());
+
+
+    }
+
+    private void vote(){
+
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(getContext());
+        builder.setMessage("ํYou want to vote this user?");
+        builder.setPositiveButton("Vote", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                mUsersRef.child(username).child("rating").setValue(String.valueOf(Integer.valueOf(member.getRating())+1));
+                Toast.makeText(getContext(), "Vote Complete!", Toast.LENGTH_SHORT).show();
+                member.setRating(String.valueOf(Integer.valueOf(member.getRating())+1));
+                rating.setText(member.getRating());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //dialog.dismiss();
+            }
+        });
+        builder.show();
+
+
+
+
+
 
     }
 

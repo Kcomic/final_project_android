@@ -1,10 +1,12 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +59,9 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
 
     @Override
     public void onItemTouched(Event event) {
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        intent.putExtra("event", event);
+        startActivity(intent);
 
     }
 
@@ -70,7 +78,7 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
                     List<String> toBuy = (List<String>) m.get("toBuy");
                     e.setToBuy(toBuy);
                     e.setToGo(toGo);
-                    events.add(e);
+                    if(compareTime(e.getFulldate())) events.add(e);
                 }
                 eventAdapter = new EventAdapter(getActivity(), HomeFragment.this);
                 recyclerView.setAdapter(eventAdapter);
@@ -84,6 +92,17 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
             }
 
         });
+    }
+
+    private boolean compareTime(String dateEvent){
+        Date dateNow = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return dateFormat.parse(dateEvent).before(dateNow);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

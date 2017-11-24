@@ -3,6 +3,7 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +26,7 @@ import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.EventAdapter;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.MemberAdapter;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Event;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Members;
 
 
 public class RatingFragment extends Fragment implements MemberAdapter.MemberAdapterListener {
@@ -30,18 +34,30 @@ public class RatingFragment extends Fragment implements MemberAdapter.MemberAdap
     private MemberAdapter memberAdapter;
     private DatabaseReference mRootRef;
     private List<Member> members;
+    private Member member;
     private RecyclerView recyclerView;
+    private FragmentManager fragmentManager;
 
     public RatingFragment() {
         // Required empty public constructor
     }
 
+    public static RatingFragment newInstance(Member member) {
+
+        Bundle args = new Bundle();
+        RatingFragment fragment = new RatingFragment();
+        args.putParcelable("member", member);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRootRef = FirebaseDatabase.getInstance().getReference();
         members = new ArrayList<>();
+        fragmentManager = getActivity().getSupportFragmentManager();
+        member = getArguments().getParcelable("member");
     }
 
     @Override
@@ -55,6 +71,11 @@ public class RatingFragment extends Fragment implements MemberAdapter.MemberAdap
 
     @Override
     public void onItemTouched(Member member) {
+        if(!this.member.getUsername().equals(member.getUsername())) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member, 0))
+                    .commit();
+        }
 
     }
 
@@ -68,7 +89,11 @@ public class RatingFragment extends Fragment implements MemberAdapter.MemberAdap
                     Map<String, Object> m = (Map<String, Object>) memberList.get(key);
                     Member e = new Member(m.get("username").toString(), m.get("email").toString(), m.get("rating").toString(), m.get("phone").toString(), m.get("fullname").toString(), m.get("nickname").toString(), m.get("url").toString());
                     members.add(e);
+
                 }
+
+                members = sortRating();
+
                 memberAdapter = new MemberAdapter(getActivity(), RatingFragment.this);
                 recyclerView.setAdapter(memberAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -81,6 +106,27 @@ public class RatingFragment extends Fragment implements MemberAdapter.MemberAdap
             }
 
         });
+    }
+
+    private List<Member> sortRating(){
+
+        int[] ratings = new int[members.size()];
+        int i = 0;
+        for(Member member : members){
+            ratings[i] = Integer.valueOf(member.getRating());
+            i++;
+        }
+        Arrays.sort(ratings);
+        List<Member> memberRatingSorted = new ArrayList<>();
+        List<Member> memberCompare = members;
+        for(int y = ratings.length-1; y>= 0;y--){
+            for(int z = 0; z<members.size();z++){
+                if(ratings[y] == Integer.valueOf(memberCompare.get(z).getRating())){
+                    memberRatingSorted.add(memberCompare.remove(z));
+                }
+            }
+        }
+        return memberRatingSorted;
     }
 
 }
