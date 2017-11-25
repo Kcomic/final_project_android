@@ -58,11 +58,9 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MemberHolder)holder).name.setText(members.get(position).getFullname());
         ((MemberHolder)holder).phone.setText(members.get(position).getPhone());
         ((MemberHolder)holder).rating.setText(members.get(position).getRating());
-        if(!members.get(position).getUrl().equals("new")) {
             Glide.with(mContext)
                     .load(members.get(position).getUrl())
                     .into(((MemberHolder) holder).profile_image);
-        }
     }
 
     @Override

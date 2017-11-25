@@ -1,4 +1,4 @@
-package kmitl.mobile.project.bawonsak58070074.tradeevent;
+package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
 
 import android.content.Intent;
@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,10 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.EventAdapter;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Event;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
-public class HomeFragment extends Fragment implements EventAdapter.EventAdapterListener {
+
+public class EventFragment extends Fragment implements EventAdapter.EventAdapterListener {
 
     private EventAdapter eventAdapter;
     private DatabaseReference mRootRef;
@@ -37,14 +37,14 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
     private RecyclerView recyclerView;
     private Member member;
 
-    public HomeFragment() {
+    public EventFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(Member member) {
 
+    public static EventFragment newInstance(Member member) {
+        EventFragment fragment = new EventFragment();
         Bundle args = new Bundle();
-        HomeFragment fragment = new HomeFragment();
         args.putParcelable("member", member);
         fragment.setArguments(args);
         return fragment;
@@ -54,8 +54,8 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRootRef = FirebaseDatabase.getInstance().getReference();
-        events = new ArrayList<>();
         member = getArguments().getParcelable("member");
+        events = new ArrayList<>();
     }
 
     @Override
@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
         intent.putExtra("member", member);
         startActivity(intent);
         getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
     }
 
     public void query(){
@@ -92,7 +91,7 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
                     e.setToGo(toGo);
                     if(compareTime(e.getFulldate())) events.add(e);
                 }
-                eventAdapter = new EventAdapter(getActivity(), HomeFragment.this);
+                eventAdapter = new EventAdapter(getActivity(), EventFragment.this);
                 recyclerView.setAdapter(eventAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 eventAdapter.setEvents(events);
@@ -110,7 +109,7 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
         Date dateNow = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            return dateFormat.parse(dateEvent).before(dateNow);
+            return dateFormat.parse(dateEvent).after(dateNow);
         } catch (ParseException e) {
             e.printStackTrace();
         }

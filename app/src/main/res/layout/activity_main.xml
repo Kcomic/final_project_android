@@ -4,21 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="#FFFFFF"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.MainActivity"
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.MainActivity"
     android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="605dp"
+        android:layout_height="600dp"
   />
+
     <LinearLayout
+        android:id="@+id/menuBar"
+        android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:background="#fefdfd"
         >
         <LinearLayout
             android:id="@+id/homeBtn"
@@ -44,6 +47,7 @@
                 android:layout_gravity="center"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/eventBtn"
             android:layout_width="wrap_content"
@@ -68,28 +72,7 @@
                 />
 
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/SearchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/searchIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_menu_search"
-                android:layout_gravity="center"
-                />
-            <TextView
-                android:id="@+id/searchTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:layout_gravity="center"
-                />
-        </LinearLayout>
         <LinearLayout
             android:id="@+id/ratingBtn"
             android:layout_width="wrap_content"
@@ -135,6 +118,12 @@
                 android:layout_gravity="center"
                 />
         </LinearLayout>
+
     </LinearLayout>
+    <View
+        android:layout_alignTop="@+id/menuBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a5a5a5"/>
 
 </RelativeLayout>

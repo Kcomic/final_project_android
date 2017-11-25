@@ -1,19 +1,19 @@
-package kmitl.mobile.project.bawonsak58070074.tradeevent;
+package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -24,8 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
 import java.util.Map;
 
+import kmitl.mobile.project.bawonsak58070074.tradeevent.AnimateIntent;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class LoginActivity extends AnimateIntent {
@@ -35,51 +38,52 @@ public class LoginActivity extends AnimateIntent {
     private boolean error = false;
     private String errorMessage = null;
     private boolean errorRequied = false;
-    private ProgressBar spinner;
     private Member member;
     private LoginButton loginButton;
     private AccessToken accessToken;
     private CallbackManager callbackManager;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
         usernameEdt = findViewById(R.id.username);
         passwordEdt = findViewById(R.id.password);
         mRootRef = FirebaseDatabase.getInstance().getReference();
         loginBtn = findViewById(R.id.loginBtn);
-        spinner = (ProgressBar)findViewById(R.id.progressBar1);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 login();
-                check();
             }
         });
 
         loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions(Arrays.asList("user_status"));
         callbackManager = CallbackManager.Factory.create();
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken != null) {
             LoginFacebook();
         }
         // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.registerCallback(this.callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                Log.i("Facebook", "Success!!");
                 LoginFacebook();
             }
 
             @Override
             public void onCancel() {
-                // App code
+                Log.i("Facebook", "Cancel!!");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Log.i("Facebook", "onError!!");
             }
         });
 
@@ -88,68 +92,62 @@ public class LoginActivity extends AnimateIntent {
     public void login() {
         final String username = usernameEdt.getText().toString();
         final String password = passwordEdt.getText().toString();
-        if(username == null || username.equals("") || password == null || password.equals("")){
+        if (username == null || username.equals("") || password == null || password.equals("")) {
             error = true;
             errorRequied = true;
-            errorMessage = "Please complete informations";
-            return;
-        }
-        errorRequied = false;
+        } else errorRequied = false;
+        progress = new ProgressDialog(LoginActivity.this);
+        progress.setMessage("login..");
+
+
         mRootRef.child("member").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Object> userList = (Map<String, Object>) dataSnapshot.getValue();
                 Map<String, Object> user = (Map<String, Object>) userList.get(username);
 
-                if(user == null){
+                if (user == null) {
                     error = true;
                     errorMessage = "Username is incorrect";
-                    return;
-                }
-                if(!(password.equals(user.get("password").toString()))){
+                } else if (!(password.equals(user.get("password").toString()))) {
                     error = true;
                     errorMessage = "Password is incorrect";
-                    return;
+                } else {
+                    error = false;
+                    member = new Member(username, user.get("email").toString(), user.get("rating").toString(), user.get("phone").toString(), user.get("fullname").toString(), user.get("nickname").toString(), user.get("url").toString());
                 }
-                error = false;
-                member = new Member(username, user.get("email").toString(), user.get("rating").toString(), user.get("phone").toString(), user.get("fullname").toString(), user.get("nickname").toString(), user.get("url").toString());
+                if(errorRequied ){
+                    errorMessage = "Please complete informations";
+                }
+                check();
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Log.e(TAG, databaseError.getMessage());
                 System.out.println("error");
             }
         });
-    }
-    private void check(){
 
-        if(errorRequied == true){
-            Toast.makeText(this,errorMessage,Toast.LENGTH_SHORT).show();
+    }
+
+    private void check() {
+
+        if (errorRequied) {
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         } else {
-            spinner.setVisibility(View.VISIBLE);
-            Handler myHandler = new Handler();
-            myHandler.postDelayed(mMyRunnable, 2000);
-        }
-    }
-
-    private Runnable mMyRunnable = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            if (error == true) {
-                spinner.setVisibility(View.GONE);
+            if (error) {
                 Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
+                progress.show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                spinner.setVisibility(View.GONE);
                 intent.putExtra("member", member);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         }
-    };
+    }
 
     public void signUp(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
@@ -168,22 +166,23 @@ public class LoginActivity extends AnimateIntent {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Map<String, Object> userList = (Map<String, Object>) dataSnapshot.getValue();
                     Map<String, Object> user = (Map<String, Object>) userList.get(profile.getId());
-                    if(user == null){
-                        member = new Member(profile.getId(), profile.getId(), "0", profile.getName(), profile.getFirstName(), profile.getProfilePictureUri(100,100).toString());
+                    if (user == null) {
+                        member = new Member(profile.getId(), profile.getId(), "0", profile.getName(), profile.getFirstName(), profile.getProfilePictureUri(100, 100).toString());
                         Intent intent = new Intent(LoginActivity.this, PhoneActivity.class);
                         intent.putExtra("member", member);
                         startActivity(intent);
                         finish();
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     } else {
-                        member = new Member(profile.getId(), profile.getId(), user.get("rating").toString(), user.get("phone").toString(), profile.getName(), profile.getFirstName(), profile.getProfilePictureUri(100,100).toString());
-
-                        spinner.setVisibility(View.VISIBLE);
-                        Handler myHandler = new Handler();
-                        myHandler.postDelayed(mMyRunnable, 2000);
-
+                        member = new Member(profile.getId(), profile.getId(), user.get("rating").toString(), user.get("phone").toString(), profile.getName(), profile.getFirstName(), profile.getProfilePictureUri(100, 100).toString());
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("member", member);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 

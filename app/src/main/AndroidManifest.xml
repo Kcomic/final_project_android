@@ -11,14 +11,17 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".controller.MainActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
-            android:name=".LoginActivity"
+            android:name=".controller.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".EventDetailActivity" />
-        <activity android:name=".ProfileSomeone" />
+        <activity android:name=".controller.SignUpActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".controller.EventDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".controller.ProfileSomeone"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -49,8 +55,15 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".PhoneActivity"></activity>
+        <activity android:name=".controller.PhoneActivity"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
+
     </application>
+
 
 </manifest>

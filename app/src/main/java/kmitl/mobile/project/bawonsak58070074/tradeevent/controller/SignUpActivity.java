@@ -1,5 +1,6 @@
-package kmitl.mobile.project.bawonsak58070074.tradeevent;
+package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+import kmitl.mobile.project.bawonsak58070074.tradeevent.AnimateIntent;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.InsertMember;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class SignUpActivity extends AnimateIntent implements InsertMember {
@@ -26,7 +30,7 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
     boolean error = false, errorRequied = true;
     private String errorMessage = null;
     private String fullname, nickname, username, password, email, phone;
-    private ProgressBar spinner;
+    ProgressDialog progress;
     Button signUpBtn;
     Member member;
 
@@ -42,15 +46,16 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
         phoneEt = findViewById(R.id.new_phone);
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mUsersRef = mRootRef.child("member");
-        spinner = findViewById(R.id.progressBar2);
         signUpBtn = findViewById(R.id.signUpBtn);
+        progress = new ProgressDialog(SignUpActivity.this);
+        progress.setMessage("loading..");
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signUp();
-                check();
             }
         });
+
     }
 
     public void signUp(){
@@ -79,17 +84,16 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
                 if(user != null){
                     error = true;
                     errorMessage = "Username is already used";
-                    return;
+                } else {
+                    error = false;
+                    insert();
+                    member = new Member(username, email, "0", phone, fullname, nickname, "https://firebasestorage.googleapis.com/v0/b/trade-event.appspot.com/o/member%2Fprofile-icon-9%20(1).png?alt=media&token=2fd99d01-1b36-4377-b9ba-6113b0882a41");
                 }
-
-                error = false;
-                insert();
-                member = new Member(username, email, "0", phone, fullname, nickname, "new");
+                check();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Log.e(TAG, databaseError.getMessage());
-                System.out.println("error");
             }
         });
     }
@@ -109,32 +113,22 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
         member.child("rating").setValue("0");
         member.child("fullname").setValue(fullname);
         member.child("nickname").setValue(nickname);
-        member.child("url").setValue("new");
+        member.child("url").setValue("https://firebasestorage.googleapis.com/v0/b/trade-event.appspot.com/o/member%2Fprofile-icon-9%20(1).png?alt=media&token=2fd99d01-1b36-4377-b9ba-6113b0882a41");
     }
 
     public void check(){
         if(errorRequied == true){
             Toast.makeText(this,errorMessage,Toast.LENGTH_SHORT).show();
         } else {
-            spinner.setVisibility(View.VISIBLE);
-            Handler myHandler = new Handler();
-            myHandler.postDelayed(mMyRunnable, 2000);
-        }
-    }
-    private Runnable mMyRunnable = new Runnable()
-    {
-        @Override
-        public void run()
-        {
             if (error == true) {
-                spinner.setVisibility(View.GONE);
                 Toast.makeText(SignUpActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
+                progress.show();
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 intent.putExtra("member", member);
-                spinner.setVisibility(View.GONE);
                 startActivity(intent);
+                finish();
             }
         }
-    };
+    }
 }

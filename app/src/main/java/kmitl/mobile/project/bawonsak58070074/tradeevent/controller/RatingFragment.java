@@ -1,4 +1,4 @@
-package kmitl.mobile.project.bawonsak58070074.tradeevent;
+package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
 
 import android.content.Intent;
@@ -17,17 +17,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.EventAdapter;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.MemberAdapter;
-import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Event;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
-import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Members;
 
 
 public class RatingFragment extends Fragment implements MemberAdapter.MemberAdapterListener {

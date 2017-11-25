@@ -13,7 +13,7 @@ import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 
 public class EventHolder extends RecyclerView.ViewHolder  {
 
-    public ImageView eventImage;
+    public ImageView eventImage, shareBtn;
     public TextView eventTime, eventDate, eventLocation, eventName;
 
     public EventHolder(View itemView) {
@@ -23,6 +23,7 @@ public class EventHolder extends RecyclerView.ViewHolder  {
         eventTime = itemView.findViewById(R.id.eventTime);
         eventLocation = itemView.findViewById(R.id.eventLocation);
         eventName = itemView.findViewById(R.id.eventName);
+        shareBtn = itemView.findViewById(R.id.shareBtn);
     }
 
 }

@@ -1,4 +1,4 @@
-package kmitl.mobile.project.bawonsak58070074.tradeevent;
+package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.MemberAdapter;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class ProfileSomeone extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package kmitl.mobile.project.bawonsak58070074.tradeevent;
+package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,9 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.Holder.EventHolder;
-import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.MemberAdapter;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.MemberSmallAdapter;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Event;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
@@ -84,6 +82,17 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                 .load(event.getUrl())
                 .into(eventImageDec);
 
+        shareBtnDec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, event.getLinkShare());
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                startActivity(Intent.createChooser(intent, "Share to"));
+            }
+        });
+
     }
     private void setup(){
         event = getIntent().getParcelableExtra("event");
@@ -113,11 +122,15 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
             whoBuy.setBackgroundColor(Color.parseColor("#f9f6f6"));
             members = new ArrayList<>();
             query(event.getToGo());
+            whoGo.setOnClickListener(null);
+            whoBuy.setOnClickListener(this);
         } else if(R.id.whoBuy == view.getId()) {
             whoGo.setBackgroundColor(Color.parseColor("#f9f6f6"));
             whoBuy.setBackgroundColor(Color.parseColor("#a6aaea"));
             members = new ArrayList<>();
             query(event.getToBuy());
+            whoGo.setOnClickListener(this);
+            whoBuy.setOnClickListener(null);
         } else if(R.id.wantGo == view.getId()){
             final DatabaseReference eventRef = mEventRef.child(event.getRealName());
             AlertDialog.Builder builder =

@@ -1,13 +1,13 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +58,16 @@ public interface EventAdapterListener {
         ((EventHolder)holder).eventName.setText(events.get(position).getName());
         ((EventHolder)holder).eventLocation.setText(events.get(position).getLocation());
         ((EventHolder)holder).eventTime.setText(events.get(position).getTime());
+        ((EventHolder)holder).shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, events.get(position).getLinkShare());
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                mContext.startActivity(Intent.createChooser(intent, "Share to"));
+            }
+        });
         //Picasso.with(mContext).load(events.get(position).getUrl()).fit().into(((EventHolder)holder).eventImage);
         Glide.with(mContext)
                 .load(events.get(position).getUrl())

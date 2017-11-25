@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.PhoneActivity">
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.PhoneActivity">
     <TextView
         android:gravity="center"
         android:layout_width="match_parent"
