@@ -54,11 +54,10 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(Member member, int check) {
+    public static ProfileFragment newInstance(Member member) {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
         args.putParcelable("member", member);
-        args.putInt("check", check);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +67,6 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         storageReference = FirebaseStorage.getInstance().getReference();
         member = getArguments().getParcelable("member");
-        check = getArguments().getInt("check");
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mUsersRef = mRootRef.child("member");
         username = member.getUsername();
@@ -81,24 +79,13 @@ public class ProfileFragment extends Fragment {
         profile_image = rootView.findViewById(R.id.profile_image);
         phone = rootView.findViewById(R.id.phonePro);
         rating = rootView.findViewById(R.id.ratingPro);
-        ratingUp = rootView.findViewById(R.id.ratingUp);
-        if(check == 1) ratingUp.setVisibility(View.GONE);
-        else ratingUp.setVisibility(View.VISIBLE);
         name = rootView.findViewById(R.id.fullname);
-        if(check == 1) {
             profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     getContent();
                 }
             });
-        }
-        ratingUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vote();
-            }
-        });
         showProfile();
         return rootView;
     }
@@ -128,8 +115,7 @@ public class ProfileFragment extends Fragment {
         referent.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getActivity(),"Download "+taskSnapshot.getDownloadUrl(),Toast.LENGTH_SHORT).show();
-                Log.i("onSuccess", "Download : " + taskSnapshot.getDownloadUrl() );
+                Toast.makeText(getActivity(),"Upload Complete!",Toast.LENGTH_SHORT).show();
                 try {
                     member.setUrl(taskSnapshot.getDownloadUrl().toString());
                     memberDr.child("url").setValue(taskSnapshot.getDownloadUrl().toString());
@@ -156,35 +142,6 @@ public class ProfileFragment extends Fragment {
         name.setText(member.getFullname());
         phone.setText(member.getPhone());
         rating.setText(member.getRating());
-
-
-    }
-
-    private void vote(){
-
-
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(getContext());
-        builder.setMessage("ํYou want to vote this user?");
-        builder.setPositiveButton("Vote", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                mUsersRef.child(username).child("rating").setValue(String.valueOf(Integer.valueOf(member.getRating())+1));
-                Toast.makeText(getContext(), "Vote Complete!", Toast.LENGTH_SHORT).show();
-                member.setRating(String.valueOf(Integer.valueOf(member.getRating())+1));
-                rating.setText(member.getRating());
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //dialog.dismiss();
-            }
-        });
-        builder.show();
-
-
-
-
 
 
     }

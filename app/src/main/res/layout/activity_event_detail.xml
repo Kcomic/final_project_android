@@ -211,8 +211,9 @@
             android:padding="3dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/wantBuyPic"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_buy" />
 
             <TextView
@@ -232,8 +233,9 @@
             android:padding="3dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/wantGoPic"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_go" />
 
             <TextView

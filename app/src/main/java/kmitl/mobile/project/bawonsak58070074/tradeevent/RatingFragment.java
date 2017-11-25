@@ -1,6 +1,7 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -72,9 +73,10 @@ public class RatingFragment extends Fragment implements MemberAdapter.MemberAdap
     @Override
     public void onItemTouched(Member member) {
         if(!this.member.getUsername().equals(member.getUsername())) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member, 0))
-                    .commit();
+            Intent intent = new Intent(getContext(), ProfileSomeone.class);
+            intent.putExtra("member", member);
+            startActivity(intent);
+            getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
     }

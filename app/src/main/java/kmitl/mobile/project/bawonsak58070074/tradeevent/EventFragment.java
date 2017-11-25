@@ -27,6 +27,7 @@ import java.util.Map;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.EventAdapter;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Event;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Events;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 
 public class EventFragment extends Fragment implements EventAdapter.EventAdapterListener {
@@ -35,26 +36,26 @@ public class EventFragment extends Fragment implements EventAdapter.EventAdapter
     private DatabaseReference mRootRef;
     private List<Event> events;
     private RecyclerView recyclerView;
+    private Member member;
 
     public EventFragment() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
-//    public static EventFragment newInstance(String param1, String param2) {
-//        EventFragment fragment = new EventFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+    public static EventFragment newInstance(Member member) {
+        EventFragment fragment = new EventFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("member", member);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRootRef = FirebaseDatabase.getInstance().getReference();
+        member = getArguments().getParcelable("member");
         events = new ArrayList<>();
     }
 
@@ -71,7 +72,9 @@ public class EventFragment extends Fragment implements EventAdapter.EventAdapter
     public void onItemTouched(Event event) {
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
         intent.putExtra("event", event);
+        intent.putExtra("member", member);
         startActivity(intent);
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     public void query(){
@@ -82,7 +85,7 @@ public class EventFragment extends Fragment implements EventAdapter.EventAdapter
 
                 for(String key : eventList.keySet()){
                     Map<String, Object> m = (Map<String, Object>) eventList.get(key);
-                    Event e = new Event(m.get("name").toString(), m.get("url").toString(), m.get("detail").toString(), m.get("date").toString(), m.get("time").toString(), m.get("location").toString(), m.get("type").toString(), m.get("fulldate").toString(), m.get("linkShare").toString());
+                    Event e = new Event(key, m.get("name").toString(), m.get("url").toString(), m.get("detail").toString(), m.get("date").toString(), m.get("time").toString(), m.get("location").toString(), m.get("type").toString(), m.get("fulldate").toString(), m.get("linkShare").toString());
                     List<String> toGo = (List<String>) m.get("toGo");
                     List<String> toBuy = (List<String>) m.get("toBuy");
                     e.setToBuy(toBuy);

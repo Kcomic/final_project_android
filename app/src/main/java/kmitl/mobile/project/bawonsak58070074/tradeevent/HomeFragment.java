@@ -27,6 +27,7 @@ import java.util.Map;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.Adapter.EventAdapter;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Event;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class HomeFragment extends Fragment implements EventAdapter.EventAdapterListener {
 
@@ -34,18 +35,27 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
     private DatabaseReference mRootRef;
     private List<Event> events;
     private RecyclerView recyclerView;
+    private Member member;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    public static HomeFragment newInstance(Member member) {
 
+        Bundle args = new Bundle();
+        HomeFragment fragment = new HomeFragment();
+        args.putParcelable("member", member);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRootRef = FirebaseDatabase.getInstance().getReference();
         events = new ArrayList<>();
+        member = getArguments().getParcelable("member");
     }
 
     @Override
@@ -61,7 +71,9 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
     public void onItemTouched(Event event) {
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
         intent.putExtra("event", event);
+        intent.putExtra("member", member);
         startActivity(intent);
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
 
@@ -73,7 +85,7 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
 
                 for(String key : eventList.keySet()){
                     Map<String, Object> m = (Map<String, Object>) eventList.get(key);
-                    Event e = new Event(m.get("name").toString(), m.get("url").toString(), m.get("detail").toString(), m.get("date").toString(), m.get("time").toString(), m.get("location").toString(), m.get("type").toString(), m.get("fulldate").toString(), m.get("linkShare").toString());
+                    Event e = new Event(key, m.get("name").toString(), m.get("url").toString(), m.get("detail").toString(), m.get("date").toString(), m.get("time").toString(), m.get("location").toString(), m.get("type").toString(), m.get("fulldate").toString(), m.get("linkShare").toString());
                     List<String> toGo = (List<String>) m.get("toGo");
                     List<String> toBuy = (List<String>) m.get("toBuy");
                     e.setToBuy(toBuy);

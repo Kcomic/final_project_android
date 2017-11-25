@@ -43,20 +43,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         setup();
-        ResetColor();
+        Reset();
         fragmentManager = getSupportFragmentManager();
-        homeBtn.setOnClickListener(this);
-        eventBtn.setOnClickListener(this);
-        searchBtn.setOnClickListener(this);
-        ratingBtn.setOnClickListener(this);
-        profileBtn.setOnClickListener(this);
-
         homeTv.setTextColor(Color.parseColor("#ff4656"));
         homeIv.setImageResource(R.drawable.ic_press_home);
         Intent intent = getIntent();
         member = intent.getParcelableExtra("member");
         fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, new HomeFragment())
+                .replace(R.id.fragmentContainer, new HomeFragment().newInstance(member))
                 .commit();
     }
     private void setup(){
@@ -85,52 +79,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(R.id.homeBtn == view.getId()){
-            ResetColor();
+            Reset();
+            homeBtn.setOnClickListener(null);
             homeTv.setTextColor(Color.parseColor("#ff4656"));
-            homeIv.setImageResource(R.drawable.ic_press_home);
+            homeIv.setImageResource(R.drawable.ic_press_event);
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new HomeFragment())
+                    .replace(R.id.fragmentContainer, new HomeFragment().newInstance(member))
                     .commit();
         } else if (R.id.eventBtn == view.getId()){
-            ResetColor();
+            Reset();
+            eventBtn.setOnClickListener(null);
             eventTv.setTextColor(Color.parseColor("#ff4656"));
-            eventIv.setImageResource(R.drawable.ic_press_event);
+            eventIv.setImageResource(R.drawable.ic_press_time);
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new EventFragment())
+                    .replace(R.id.fragmentContainer, new EventFragment().newInstance(member))
                     .commit();
         } else if (R.id.SearchBtn == view.getId()){
-            ResetColor();
+            Reset();
+            searchBtn.setOnClickListener(null);
             searchTv.setTextColor(Color.parseColor("#ff4656"));
             searchIv.setImageResource(R.drawable.ic_press_search);
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new SearchFragment())
                     .commit();
         } else if (R.id.ratingBtn == view.getId()){
-            ResetColor();
+            Reset();
+            ratingBtn.setOnClickListener(null);
             ratingTv.setTextColor(Color.parseColor("#ff4656"));
             ratingIv.setImageResource(R.drawable.ic_press_rating);
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new RatingFragment().newInstance(member))
                     .commit();
         } else if (R.id.profileBtn == view.getId()){
-            ResetColor();
+            Reset();
+            profileBtn.setOnClickListener(null);
             profileTv.setTextColor(Color.parseColor("#ff4656"));
             profileIv.setImageResource(R.drawable.ic_press_user);
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member, 1))
+                    .replace(R.id.fragmentContainer, new ProfileFragment().newInstance(member))
                     .commit();
         }
     }
-    private void ResetColor(){
+    private void Reset(){
         homeTv.setTextColor(Color.parseColor("#727272"));
         eventTv.setTextColor(Color.parseColor("#727272"));
         searchTv.setTextColor(Color.parseColor("#727272"));
         ratingTv.setTextColor(Color.parseColor("#727272"));
         profileTv.setTextColor(Color.parseColor("#727272"));
-        homeIv.setImageResource(R.drawable.ic_menu_home);
-        eventIv.setImageResource(R.drawable.ic_action_name);
+        homeIv.setImageResource(R.drawable.ic_action_name);
+        eventIv.setImageResource(R.drawable.ic_menu_time);
         searchIv.setImageResource(R.drawable.ic_menu_search);
         ratingIv.setImageResource(R.drawable.ic_menu_rating);
         profileIv.setImageResource(R.drawable.ic_menu_user);
+        homeBtn.setOnClickListener(this);
+        eventBtn.setOnClickListener(this);
+        searchBtn.setOnClickListener(this);
+        ratingBtn.setOnClickListener(this);
+        profileBtn.setOnClickListener(this);
+
     }
 }

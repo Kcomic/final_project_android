@@ -15,7 +15,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_marginTop="50dp"
-            android:id="@+id/profile_image"
+            android:id="@+id/profile_image_someone"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:src="@drawable/ic_picture_profile"
@@ -25,7 +25,7 @@
 
         <TextView
             android:layout_marginTop="15dp"
-            android:id="@+id/fullname"
+            android:id="@+id/fullname_someone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bawonsak Petchbunjerdkul"
@@ -33,24 +33,24 @@
             />
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:layout_marginTop="5dp">
-    <ImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_phone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_phone" />
 
-    <TextView
-        android:id="@+id/phonePro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="097-086-2773"
-        android:textSize="20dp"
-        />
-</LinearLayout>
+            <TextView
+                android:id="@+id/phonePro_someone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="097-086-2773"
+                android:textSize="20dp"
+                />
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -62,7 +62,7 @@
                 android:src="@drawable/ic_rating" />
 
             <TextView
-                android:id="@+id/ratingPro"
+                android:id="@+id/ratingPro_someone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -73,6 +73,15 @@
 
 
         </RelativeLayout>
+        <TextView
+            android:id="@+id/ratingUp_someone"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ให้คะแนนผู้ใช้ ?"
+            android:textColor="#ff4656"
+            android:background="@drawable/button_selector"
+            />
     </LinearLayout>
 
 </FrameLayout>

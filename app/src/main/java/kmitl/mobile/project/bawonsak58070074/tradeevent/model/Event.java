@@ -22,9 +22,20 @@ public class Event implements Parcelable {
     private String type;
     private String fulldate;
     private String linkShare;
+    private String realName;
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
     private List<String> toBuy = Collections.emptyList(), toGo = Collections.emptyList();
 
-    public Event(String name, String url, String detail, String date, String time, String location, String type, String fulldate, String linkShare) {
+    public Event(String realName, String name, String url, String detail, String date, String time, String location, String type, String fulldate, String linkShare) {
+        this.realName = realName;
         this.name = name;
         this.url = url;
         this.detail = detail;
@@ -37,6 +48,7 @@ public class Event implements Parcelable {
     }
 
     protected Event(Parcel in) {
+        realName = in.readString();
         name = in.readString();
         url = in.readString();
         detail = in.readString();
@@ -126,7 +138,7 @@ public class Event implements Parcelable {
         this.location = location;
     }
 
-    public List getToBuy() {
+    public List<String> getToBuy() {
         return toBuy;
     }
 
@@ -134,7 +146,7 @@ public class Event implements Parcelable {
         this.toBuy = toBuy;
     }
 
-    public List getToGo() {
+    public List<String> getToGo() {
         return toGo;
     }
 
@@ -149,6 +161,12 @@ public class Event implements Parcelable {
     public void setFulldate(String fulldate) {
         this.fulldate = fulldate;
     }
+    public void addToGo(String username){
+        toGo.add(username);
+    }
+    public void addToBuy(String username){
+        toBuy.add(username);
+    }
 
     @Override
     public int describeContents() {
@@ -157,6 +175,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(realName);
         dest.writeString(name);
         dest.writeString(url);
         dest.writeString(detail);

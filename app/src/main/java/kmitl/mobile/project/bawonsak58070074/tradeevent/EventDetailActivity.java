@@ -1,17 +1,22 @@
 package kmitl.mobile.project.bawonsak58070074.tradeevent;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -33,20 +38,24 @@ import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class EventDetailActivity extends AppCompatActivity implements View.OnClickListener, MemberSmallAdapter.MemberAdapterListener {
 
-    private ImageView eventImageDec, shareBtnDec;
+    private ImageView eventImageDec, shareBtnDec, wantGoPic, wantBuyPic;
     private TextView eventDateDec,eventNameDec, eventLocationDec, eventTimeDec, detail;
+    private FragmentManager fragmentManager;
     private LinearLayout whoGo, whoBuy, wantGo, wantBuy;
     private Event event;
     private RecyclerView recyclerView;
-    private DatabaseReference mRootRef;
+    private DatabaseReference mRootRef, mEventRef;
     private MemberSmallAdapter memberAdapter;
     private List<Member> members;
+    private Member member;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        fragmentManager = getSupportFragmentManager();
         setup();
+        mEventRef = mRootRef.child("event");
         String s = event.getDate().split("-")[0]+"\\n-\\n"+event.getDate().split("-")[1];
         s = s.replace("\\n", System.getProperty("line.separator"));
         s = s.replace(" ", "");
@@ -59,6 +68,18 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         whoBuy.setOnClickListener(this);
         wantGo.setOnClickListener(this);
         wantBuy.setOnClickListener(this);
+        for(String toGo : event.getToGo()){
+            if(member.getUsername().equals(toGo)){
+                wantGoPic.setImageResource(R.drawable.ic_correct);
+                wantGo.setOnClickListener(null);
+            }
+        } for(String toBuy : event.getToBuy()){
+            if(member.getUsername().equals(toBuy)){
+                wantBuyPic.setImageResource(R.drawable.ic_correct);
+                wantBuy.setOnClickListener(null);
+            }
+        }
+
         Glide.with(getApplicationContext())
                 .load(event.getUrl())
                 .into(eventImageDec);
@@ -66,6 +87,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     }
     private void setup(){
         event = getIntent().getParcelableExtra("event");
+        member = getIntent().getParcelableExtra("member");
         mRootRef = FirebaseDatabase.getInstance().getReference();
         members = new ArrayList<>();
         eventImageDec = findViewById(R.id.eventImageDec);
@@ -79,6 +101,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         whoBuy = findViewById(R.id.whoBuy);
         wantGo = findViewById(R.id.wantGo);
         wantBuy = findViewById(R.id.wantBuy);
+        wantGoPic = findViewById(R.id.wantGoPic);
+        wantBuyPic = findViewById(R.id.wantBuyPic);
         recyclerView = findViewById(R.id.memberListDec);
     }
 
@@ -95,15 +119,61 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
             members = new ArrayList<>();
             query(event.getToBuy());
         } else if(R.id.wantGo == view.getId()){
+            final DatabaseReference eventRef = mEventRef.child(event.getRealName());
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(this);
+            builder.setMessage("You want to go?");
+            builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    eventRef.child("toGo").child(String.valueOf(event.getToGo().size())).setValue(member.getUsername());
+                    Toast.makeText(getApplicationContext(), "Check in Complete!", Toast.LENGTH_SHORT).show();
+                    event.addToGo(member.getUsername());
+                    wantGo.setOnClickListener(null);
+                    wantGoPic.setImageResource(R.drawable.ic_correct);
+                }
+            });
+            builder.show();
 
         } else if(R.id.wantBuy == view.getId()){
+
+            final DatabaseReference eventRef = mEventRef.child(event.getRealName());
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(this);
+            builder.setMessage("You want to Buy?");
+            builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    eventRef.child("toBuy").child(String.valueOf(event.getToBuy().size())).setValue(member.getUsername());
+                    Toast.makeText(getApplicationContext(), "Check in Complete!", Toast.LENGTH_SHORT).show();
+                    event.addToBuy(member.getUsername());
+                    wantBuy.setOnClickListener(null);
+                    wantBuyPic.setImageResource(R.drawable.ic_correct);
+                }
+            });
+            builder.show();
 
         }
     }
 
     @Override
     public void onItemTouched(Member member) {
-
+        if(!this.member.getUsername().equals(member.getUsername())) {
+            Intent intent = new Intent(this, ProfileSomeone.class);
+            intent.putExtra("member", member);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 
     public void query(final List<String> who){
@@ -129,6 +199,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                 recyclerView.setAdapter(memberAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(EventDetailActivity.this));
                 memberAdapter.setMembers(members);
+                memberAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -158,6 +229,28 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
             }
         }
         return memberRatingSorted;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent(EventDetailActivity.this, MainActivity.class);
+        intent.putExtra("member", member);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 }

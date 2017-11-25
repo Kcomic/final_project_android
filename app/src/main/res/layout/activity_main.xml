@@ -33,14 +33,14 @@
                 android:id="@+id/homeIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_menu_home"
+                android:src="@drawable/ic_action_name"
                 android:layout_gravity="center"
                 />
             <TextView
                 android:id="@+id/homeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="Event"
                 android:layout_gravity="center"
                 />
         </LinearLayout>
@@ -56,14 +56,14 @@
                 android:id="@+id/eventIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_name"
+                android:src="@drawable/ic_menu_time"
                 android:layout_gravity="center"
                 />
             <TextView
                 android:id="@+id/eventTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event"
+                android:text="Coming Soon"
                 android:layout_gravity="center"
                 />
 
