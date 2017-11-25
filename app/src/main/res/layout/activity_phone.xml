@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.PhoneActivity">
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign in first time?"
+        android:textSize="25dp"
+        />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/phone"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp">
+
+        <EditText
+            android:id="@+id/new_phone_facebook"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789+"
+            android:ems="10"
+            android:hint="Please enter your phone"
+            android:inputType="phone" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/loginBtnPhone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="#b45705"
+        android:text="@string/login"
+        android:textColor="#fff"
+        android:layout_marginBottom="30dp" />
+</LinearLayout>

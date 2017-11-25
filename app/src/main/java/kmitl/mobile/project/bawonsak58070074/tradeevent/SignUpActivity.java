@@ -3,6 +3,7 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,7 +59,7 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
         username = usernameEt.getText().toString();
         password = passwordEt.getText().toString();
         email = emailEt.getText().toString();
-        phone = phoneEt.getText().toString();
+        phone = PhoneNumberUtils.formatNumber(phoneEt.getText().toString());
 
         if(username == null || username.equals("") || password == null || password.equals("") || fullname == null || fullname.equals("") ||
                 nickname == null || nickname.equals("") || email == null || email.equals("") || phone == null || phone.equals("")

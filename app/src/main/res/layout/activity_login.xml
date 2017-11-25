@@ -80,13 +80,12 @@
                 android:text="@string/or"
                 android:textSize="20sp" />
 
-            <Button
-                android:layout_width="fill_parent"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#3b5998"
-                android:text="@string/sign_in_with_facebook"
-                android:textAllCaps="false"
-                android:textColor="#fff" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp" />
         </LinearLayout>
 
 
@@ -108,7 +107,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/dont_have_account"
             android:textAlignment="center"
-            android:onClick="signIn"
+            android:onClick="signUp"
             android:layout_alignParentBottom="true"
             />
 
@@ -125,5 +124,6 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
 
 </android.support.constraint.ConstraintLayout>

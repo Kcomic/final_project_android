@@ -17,6 +17,15 @@ public class Member implements Parcelable {
     String nickname;
     String url;
 
+    public Member(String username, String email, String rating, String fullname, String nickname, String url) {
+        this.username = username;
+        this.email = email;
+        this.rating = rating;
+        this.fullname = fullname;
+        this.nickname = nickname;
+        this.url = url;
+    }
+
     public Member(String username, String email, String rating, String phone, String fullname, String nickname, String url) {
         this.username = username;
         this.email = email;

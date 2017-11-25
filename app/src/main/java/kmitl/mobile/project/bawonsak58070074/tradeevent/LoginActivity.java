@@ -3,12 +3,21 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +37,9 @@ public class LoginActivity extends AnimateIntent {
     private boolean errorRequied = false;
     private ProgressBar spinner;
     private Member member;
+    private LoginButton loginButton;
+    private AccessToken accessToken;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +57,32 @@ public class LoginActivity extends AnimateIntent {
                 check();
             }
         });
+
+        loginButton = findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+        callbackManager = CallbackManager.Factory.create();
+        accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            LoginFacebook();
+        }
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                LoginFacebook();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+
     }
 
     public void login() {
@@ -107,6 +145,7 @@ public class LoginActivity extends AnimateIntent {
                 spinner.setVisibility(View.GONE);
                 intent.putExtra("member", member);
                 startActivity(intent);
+                finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         }
@@ -116,5 +155,67 @@ public class LoginActivity extends AnimateIntent {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
+
+    private void LoginFacebook() {
+        boolean isError = false;
+        try {
+            final Profile profile = Profile.getCurrentProfile();
+            Log.i("Facebook login", profile.getName());
+            Log.i("Facebook login", profile.getId());
+            Log.i("Facebook login", profile.getFirstName());
+            mRootRef.child("member").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Map<String, Object> userList = (Map<String, Object>) dataSnapshot.getValue();
+                    Map<String, Object> user = (Map<String, Object>) userList.get(profile.getId());
+                    if(user == null){
+                        member = new Member(profile.getId(), profile.getId(), "0", profile.getName(), profile.getFirstName(), profile.getProfilePictureUri(100,100).toString());
+                        Intent intent = new Intent(LoginActivity.this, PhoneActivity.class);
+                        intent.putExtra("member", member);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    } else {
+                        member = new Member(profile.getId(), profile.getId(), user.get("rating").toString(), user.get("phone").toString(), profile.getName(), profile.getFirstName(), profile.getProfilePictureUri(100,100).toString());
+
+                        spinner.setVisibility(View.VISIBLE);
+                        Handler myHandler = new Handler();
+                        myHandler.postDelayed(mMyRunnable, 2000);
+
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        } catch (Exception ex) {
+
+            Toast.makeText(LoginActivity.this, "Please login with facebook again", Toast.LENGTH_SHORT).show();
+            isError = true;
+        }
+        if (isError) {
+            LoginManager.getInstance().logOut();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+
 }
 

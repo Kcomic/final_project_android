@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +43,7 @@ public class ProfileFragment extends Fragment {
 
     private static final int PICK_SOMETHING = 1;
     private StorageReference storageReference;
-    private TextView name, phone, rating, ratingUp;
+    private TextView name, phone, rating, logout;
     private Uri uri;
     private int check;
     private Member member;
@@ -80,6 +81,7 @@ public class ProfileFragment extends Fragment {
         phone = rootView.findViewById(R.id.phonePro);
         rating = rootView.findViewById(R.id.ratingPro);
         name = rootView.findViewById(R.id.fullname);
+        logout = rootView.findViewById(R.id.logout);
             profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -87,6 +89,16 @@ public class ProfileFragment extends Fragment {
                 }
             });
         showProfile();
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                LoginManager.getInstance().logOut();
+                startActivity(intent);
+                getActivity().finish();
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
         return rootView;
     }
 

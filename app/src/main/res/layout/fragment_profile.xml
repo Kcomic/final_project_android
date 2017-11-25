@@ -73,6 +73,16 @@
 
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log out"
+            android:textColor="#ff4656"
+            android:background="@drawable/button_selector"
+            />
     </LinearLayout>
 
 </FrameLayout>
