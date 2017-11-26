@@ -6,9 +6,6 @@ import org.junit.Rule;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.controller.LoginActivity;
 
-/**
- * Created by student on 26/11/2017 AD.
- */
 
 public class AimateIntentTest {
 
