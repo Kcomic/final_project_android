@@ -48,4 +48,13 @@ public class LoginActivityTest {
         SystemClock.sleep(2000);
     }
 
+    @Test
+    public void loginFacebookTest() {
+        onView(withId(R.id.login_button)).perform(click());
+        SystemClock.sleep(2000);
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
+    }
+
+
 }
