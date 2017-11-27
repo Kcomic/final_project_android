@@ -42,8 +42,8 @@ public class LoginActivityTest {
 
     @Test
     public void loginActivityTest() {
-        onView(withId(R.id.username)).perform(replaceText("Kcomic"), closeSoftKeyboard());
-        onView(withId(R.id.password)).perform(replaceText("as22102539"), closeSoftKeyboard());
+        onView(withId(R.id.username)).perform(replaceText("test5"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(replaceText("test5"), closeSoftKeyboard());
         onView(withId(R.id.loginBtn)).perform(click());
         SystemClock.sleep(2000);
     }
