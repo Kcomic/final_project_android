@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.UserPreferences;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 import static android.app.Activity.RESULT_OK;
@@ -86,9 +87,11 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 LoginManager.getInstance().logOut();
+                logout();
                 startActivity(intent);
                 getActivity().finish();
                 getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
             }
         });
         return rootView;
@@ -148,6 +151,10 @@ public class ProfileFragment extends Fragment {
         rating.setText(member.getRating());
 
 
+    }
+
+    public void logout(){
+        UserPreferences.clearUserName(getActivity());
     }
 
 }

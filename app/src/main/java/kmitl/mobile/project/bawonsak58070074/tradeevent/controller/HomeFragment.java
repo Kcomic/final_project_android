@@ -61,8 +61,8 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_event, container, false);
-        recyclerView = rootView.findViewById(R.id.eventList);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView = rootView.findViewById(R.id.homeList);
         query();
         return rootView;
     }

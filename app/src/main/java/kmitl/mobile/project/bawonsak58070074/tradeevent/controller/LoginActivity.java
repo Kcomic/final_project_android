@@ -2,6 +2,7 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.Map;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.AnimateIntent;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.UserPreferences;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class LoginActivity extends AnimateIntent {
@@ -53,6 +55,10 @@ public class LoginActivity extends AnimateIntent {
         passwordEdt = findViewById(R.id.password);
         mRootRef = FirebaseDatabase.getInstance().getReference();
         loginBtn = findViewById(R.id.loginBtn);
+        if(UserPreferences.getUserName(this).length() != 0)
+        {
+            autoLogin();
+        }
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +105,6 @@ public class LoginActivity extends AnimateIntent {
         progress = new ProgressDialog(LoginActivity.this);
         progress.setMessage("login..");
 
-
         mRootRef.child("member").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,6 +119,7 @@ public class LoginActivity extends AnimateIntent {
                     errorMessage = "Password is incorrect";
                 } else {
                     error = false;
+                    UserPreferences.setUserName(getApplicationContext(), username);
                     member = new Member(username, user.get("email").toString(), user.get("rating").toString(), user.get("phone").toString(), user.get("fullname").toString(), user.get("nickname").toString(), user.get("url").toString());
                 }
                 if(errorRequied ){
@@ -213,6 +219,35 @@ public class LoginActivity extends AnimateIntent {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    private void autoLogin(){
+        final String username = UserPreferences.getUserName(this);
+        progress = new ProgressDialog(LoginActivity.this);
+        progress.setMessage("login..");
+        mRootRef.child("member").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, Object> userList = (Map<String, Object>) dataSnapshot.getValue();
+                Map<String, Object> user = (Map<String, Object>) userList.get(username);
+                member = new Member(username, user.get("email").toString(), user.get("rating").toString(), user.get("phone").toString(), user.get("fullname").toString(), user.get("nickname").toString(), user.get("url").toString());
+                progress.show();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("member", member);
+                UserPreferences.setUserName(getApplicationContext(), username);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Log.e(TAG, databaseError.getMessage());
+                System.out.println("error");
+            }
+        });
+
     }
 
 

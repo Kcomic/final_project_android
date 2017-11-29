@@ -10,6 +10,7 @@ import org.junit.Test;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
@@ -32,13 +33,16 @@ public class RatingFragmentTest {
     @Test
     public void ratingFragmentTest(){
 
-        loginActivityTest.loginActivityTest();
+        LoginActivityTest.login();
         onView(withId(R.id.ratingBtn)).perform(click());
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
         onView(withId(R.id.memberList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.ratingUp_someone)).perform(click());
         onView(withText("Vote")).perform(click());
         onView(withText("Vote Complete!")).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
         SystemClock.sleep(3000);
+        pressBack();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
     }
 }

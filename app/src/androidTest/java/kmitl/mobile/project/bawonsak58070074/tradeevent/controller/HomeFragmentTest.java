@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -33,53 +34,68 @@ public class HomeFragmentTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
-    LoginActivityTest loginActivityTest = new LoginActivityTest();
 
     @Test
     public void wantToBuy() {
 
-        loginActivityTest.loginActivityTest();
+        LoginActivityTest.login();
         onView(withId(R.id.eventBtn)).perform(click());
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
         onView(withId(R.id.eventList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.wantBuy)).perform(click());
         onView(withText("Yes")).perform(click());
         onView(withText("Check in Complete!")).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
+        pressBack();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
     }
 
     @Test
     public void wantToGo() {
 
-        loginActivityTest.loginActivityTest();
+        LoginActivityTest.login();
         onView(withId(R.id.eventBtn)).perform(click());
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
         onView(withId(R.id.eventList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.wantGo)).perform(click());
         onView(withText("Yes")).perform(click());
         onView(withText("Check in Complete!")).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
+        pressBack();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
 
     }
 
     @Test
     public void whoGo() {
-        loginActivityTest.loginActivityTest();
+        LoginActivityTest.login();
         onView(withId(R.id.eventBtn)).perform(click());
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
         onView(withId(R.id.eventList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.whoGo)).perform(scrollTo()).perform(click());
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
+        onView(withId(R.id.memberListDec)).perform(scrollTo(), RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        pressBack();
+        pressBack();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
     }
 
     @Test
     public void whoBuy() {
-        loginActivityTest.loginActivityTest();
+        LoginActivityTest.login();
         onView(withId(R.id.eventBtn)).perform(click());
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
         onView(withId(R.id.eventList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.whoBuy)).perform(scrollTo()).perform(click());
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
+        onView(withId(R.id.memberListDec)).perform(scrollTo(), RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        pressBack();
+        pressBack();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
     }
 
 }

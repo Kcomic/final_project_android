@@ -3,6 +3,8 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -31,6 +33,10 @@ public class SignUpActivityTest {
         onView(withId(R.id.new_phone)).perform(replaceText("0851245112"), closeSoftKeyboard());
         onView(withId(R.id.signUpBtn)).perform(click());
         SystemClock.sleep(3000);
+        FirebaseDatabase.getInstance().getReference().child("member").child("test7").removeValue();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
+
 
     }
 

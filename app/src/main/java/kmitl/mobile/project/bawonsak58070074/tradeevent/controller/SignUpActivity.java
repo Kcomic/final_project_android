@@ -22,6 +22,7 @@ import java.util.Map;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.AnimateIntent;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.InsertMember;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.UserPreferences;
 import kmitl.mobile.project.bawonsak58070074.tradeevent.model.Member;
 
 public class SignUpActivity extends AnimateIntent implements InsertMember {
@@ -125,7 +126,9 @@ public class SignUpActivity extends AnimateIntent implements InsertMember {
             } else {
                 progress.show();
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                UserPreferences.setUserName(getApplicationContext(), username);
                 intent.putExtra("member", member);
+
                 startActivity(intent);
                 finish();
             }

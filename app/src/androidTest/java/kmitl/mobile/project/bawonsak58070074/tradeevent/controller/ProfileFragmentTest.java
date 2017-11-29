@@ -31,7 +31,7 @@ public class ProfileFragmentTest {
 
     @Test
     public void logoutTest(){
-        loginActivityTest.loginActivityTest();
+        LoginActivityTest.login();
         onView(withId(R.id.profileBtn)).perform(click());
         onView(withId(R.id.logout)).perform(click());
     }
