@@ -36,24 +36,7 @@ public class HomeFragmentTest {
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void wantToBuy() {
-
-        LoginActivityTest.login();
-        onView(withId(R.id.eventBtn)).perform(click());
-        SystemClock.sleep(2000);
-        onView(withId(R.id.eventList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.wantBuy)).perform(click());
-        onView(withText("Yes")).perform(click());
-        onView(withText("Check in Complete!")).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-        SystemClock.sleep(2000);
-        pressBack();
-        onView(withId(R.id.profileBtn)).perform(click());
-        onView(withId(R.id.logout)).perform(click());
-    }
-
-    @Test
     public void wantToGo() {
-
         LoginActivityTest.login();
         onView(withId(R.id.eventBtn)).perform(click());
         SystemClock.sleep(2000);
@@ -66,6 +49,21 @@ public class HomeFragmentTest {
         onView(withId(R.id.profileBtn)).perform(click());
         onView(withId(R.id.logout)).perform(click());
 
+    }
+
+    @Test
+    public void wantToBuy() {
+        LoginActivityTest.login();
+        onView(withId(R.id.eventBtn)).perform(click());
+        SystemClock.sleep(2000);
+        onView(withId(R.id.eventList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.wantBuy)).perform(click());
+        onView(withText("Yes")).perform(click());
+        onView(withText("Check in Complete!")).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+        SystemClock.sleep(2000);
+        pressBack();
+        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
     }
 
     @Test
@@ -97,5 +95,13 @@ public class HomeFragmentTest {
         onView(withId(R.id.profileBtn)).perform(click());
         onView(withId(R.id.logout)).perform(click());
     }
+
+    @Test
+    public void goback(){
+        LoginActivityTest.login();
+        onView(withId(R.id.eventBtn)).perform(click());
+        onView(withId(R.id.homeBtn)).perform(click());
+    }
+
 
 }

@@ -111,7 +111,7 @@ public class EventFragment extends Fragment implements EventAdapter.EventAdapter
         try {
             return dateFormat.parse(dateEvent).after(dateNow);
         } catch (ParseException e) {
-            e.printStackTrace();
+
         }
         return false;
     }

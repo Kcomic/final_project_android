@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Reset();
             homeBtn.setOnClickListener(null);
             homeTv.setTextColor(Color.parseColor("#ff4656"));
-            homeIv.setImageResource(R.drawable.ic_press_event);
+            homeIv.setImageResource(R.drawable.ic_press_home);
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, new HomeFragment().newInstance(member))
                     .commit();
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eventTv.setTextColor(Color.parseColor("#727272"));
         ratingTv.setTextColor(Color.parseColor("#727272"));
         profileTv.setTextColor(Color.parseColor("#727272"));
-        homeIv.setImageResource(R.drawable.ic_action_name);
+        homeIv.setImageResource(R.drawable.ic_menu_home);
         eventIv.setImageResource(R.drawable.ic_menu_time);
         ratingIv.setImageResource(R.drawable.ic_menu_rating);
         profileIv.setImageResource(R.drawable.ic_menu_user);

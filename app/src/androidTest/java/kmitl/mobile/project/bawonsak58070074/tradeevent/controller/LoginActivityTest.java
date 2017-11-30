@@ -56,11 +56,9 @@ public class LoginActivityTest {
 
         onView(withId(R.id.login_button)).perform(click());
         SystemClock.sleep(1000);
-        onView(withId(R.id.login_button)).perform(click());
-        SystemClock.sleep(1000);
         onView(withId(R.id.new_phone_facebook)).perform(replaceText("0946251425"));
         onView(withId(R.id.loginBtnPhone)).perform(click());
-        FirebaseDatabase.getInstance().getReference().child("member").child("1494495713931138").removeValue();
+        FirebaseDatabase.getInstance().getReference().child("member").child("1500799393301559").removeValue();
         SystemClock.sleep(2000);
         onView(withId(R.id.profileBtn)).perform(click());
         onView(withId(R.id.logout)).perform(click());
@@ -72,5 +70,20 @@ public class LoginActivityTest {
         onView(withId(R.id.loginBtn)).perform(click());
         SystemClock.sleep(2000);
     }
+
+    @Test
+    public void loginFailTest1(){
+        onView(withId(R.id.username)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn)).perform(click());
+    }
+
+    @Test
+    public void loginFailTest2(){
+        onView(withId(R.id.username)).perform(replaceText("asdasd"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(replaceText("asdasd"), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn)).perform(click());
+    }
+
 
 }

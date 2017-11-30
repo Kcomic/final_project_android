@@ -3,7 +3,10 @@ package kmitl.mobile.project.bawonsak58070074.tradeevent.controller;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -84,12 +89,10 @@ public class LoginActivity extends AnimateIntent {
 
             @Override
             public void onCancel() {
-                Log.i("Facebook", "Cancel!!");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Log.i("Facebook", "onError!!");
             }
         });
 
@@ -162,7 +165,7 @@ public class LoginActivity extends AnimateIntent {
 
     private void LoginFacebook() {
         boolean isError = false;
-        try {
+//        try {
             final Profile profile = Profile.getCurrentProfile();
             Log.i("Facebook login", profile.getName());
             Log.i("Facebook login", profile.getId());
@@ -195,14 +198,14 @@ public class LoginActivity extends AnimateIntent {
                 }
             });
 
-        } catch (Exception ex) {
-
-            Toast.makeText(LoginActivity.this, "Please login with facebook again", Toast.LENGTH_SHORT).show();
-            isError = true;
-        }
-        if (isError) {
-            LoginManager.getInstance().logOut();
-        }
+//        } catch (Exception ex) {
+//
+//            Toast.makeText(LoginActivity.this, "Please login with facebook again", Toast.LENGTH_SHORT).show();
+//            isError = true;
+//        }
+//        if (isError) {
+//            LoginManager.getInstance().logOut();
+//        }
     }
 
     @Override
@@ -249,7 +252,6 @@ public class LoginActivity extends AnimateIntent {
         });
 
     }
-
 
 }
 

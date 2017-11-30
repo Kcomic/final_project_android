@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment implements EventAdapter.EventAdapterL
         try {
             return dateFormat.parse(dateEvent).before(dateNow);
         } catch (ParseException e) {
-            e.printStackTrace();
+
         }
         return false;
     }

@@ -36,8 +36,28 @@ public class SignUpActivityTest {
         FirebaseDatabase.getInstance().getReference().child("member").child("test7").removeValue();
         onView(withId(R.id.profileBtn)).perform(click());
         onView(withId(R.id.logout)).perform(click());
+    }
 
+    @Test
+    public void SignUpFailTest1(){
+        onView(withId(R.id.new_fullname)).perform(replaceText("Kcomic"), closeSoftKeyboard());
+        onView(withId(R.id.new_nickname)).perform(replaceText("Kcomic"), closeSoftKeyboard());
+        onView(withId(R.id.new_username)).perform(replaceText("Kcomic"), closeSoftKeyboard());
+        onView(withId(R.id.new_password)).perform(replaceText("as22102539"), closeSoftKeyboard());
+        onView(withId(R.id.new_email)).perform(replaceText("Kcomic@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.new_phone)).perform(replaceText("0851245112"), closeSoftKeyboard());
+        onView(withId(R.id.signUpBtn)).perform(click());
+    }
 
+    @Test
+    public void SignUpFailTest2(){
+        onView(withId(R.id.new_fullname)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.new_nickname)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.new_username)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.new_password)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.new_email)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.new_phone)).perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.signUpBtn)).perform(click());
     }
 
 //    @Test
