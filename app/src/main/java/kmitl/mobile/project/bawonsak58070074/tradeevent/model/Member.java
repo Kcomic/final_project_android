@@ -69,16 +69,8 @@ public class Member implements Parcelable {
         return fullname;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
     public String getNickname() {
         return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getUsername() {
@@ -87,14 +79,6 @@ public class Member implements Parcelable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getRating() {

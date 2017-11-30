@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.EventDetailActivity"
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Activity.EventDetailActivity"
     >
 
     <ScrollView
@@ -39,7 +39,7 @@
                     android:layout_height="70dp"
                     android:background="#ff4656"
                     android:gravity="center"
-                    android:text="15Dec\n-\n20Dec"
+                    android:text="@string/_15dec_n_n20dec"
                     android:textColor="#FFFFFF" />
 
                 <LinearLayout
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="EventName"
+                        android:text="@string/eventname"
                         android:textColor="#000000"
                         android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:text="ห้องน้ำ"
+                            android:text="@string/station"
                             android:textColor="#000000" />
 
                     </LinearLayout>
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_toRightOf="@+id/eventTimeImage"
-                    android:text="10:00 - 22:00"
+                    android:text="@string/time"
                     android:textColor="#000000" />
 
                 <ImageView

@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:gravity="center_horizontal"
-                android:text="Trade Event"
+                android:text="@string/app"
                 android:textColor="#90c40909"
                 android:textSize="33dp"
                 android:textStyle="bold" />

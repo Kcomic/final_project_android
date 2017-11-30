@@ -9,12 +9,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import kmitl.mobile.project.bawonsak58070074.tradeevent.R;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Activity.SignUpActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 
@@ -47,6 +47,7 @@ public class SignUpActivityTest {
         onView(withId(R.id.new_email)).perform(replaceText("Kcomic@gmail.com"), closeSoftKeyboard());
         onView(withId(R.id.new_phone)).perform(replaceText("0851245112"), closeSoftKeyboard());
         onView(withId(R.id.signUpBtn)).perform(click());
+        SystemClock.sleep(1000);
     }
 
     @Test
@@ -58,6 +59,7 @@ public class SignUpActivityTest {
         onView(withId(R.id.new_email)).perform(replaceText(""), closeSoftKeyboard());
         onView(withId(R.id.new_phone)).perform(replaceText(""), closeSoftKeyboard());
         onView(withId(R.id.signUpBtn)).perform(click());
+        SystemClock.sleep(1000);
     }
 
 //    @Test

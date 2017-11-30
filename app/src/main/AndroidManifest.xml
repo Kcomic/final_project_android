@@ -16,11 +16,11 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.MainActivity"
+        <activity android:name=".controller.Activity.MainActivity"
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".controller.LoginActivity"
+            android:name=".controller.Activity.LoginActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_login">
             <intent-filter>
@@ -29,11 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.SignUpActivity"
+        <activity android:name=".controller.Activity.SignUpActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".controller.EventDetailActivity"
+        <activity android:name=".controller.Activity.EventDetailActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".controller.ProfileSomeone"
+        <activity android:name=".controller.Activity.ProfileSomeone"
             android:screenOrientation="portrait"/>
 
         <meta-data
@@ -57,7 +57,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".controller.PhoneActivity"
+        <activity android:name=".controller.Activity.PhoneActivity"
             android:screenOrientation="portrait"
             >
 

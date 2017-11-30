@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.RatingFragment">
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Fragment.RatingFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memberList"

@@ -7,13 +7,13 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.PhoneActivity">
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Activity.PhoneActivity">
     <TextView
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign in first time?"
-        android:textSize="25dp"
+        android:text="@string/sign_in_first_time"
+        android:textSize="25sp"
         />
     <android.support.design.widget.TextInputLayout
         android:id="@+id/phone"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:digits="0123456789+"
             android:ems="10"
-            android:hint="Please enter your phone"
+            android:hint="@string/please_enter_your_phone"
             android:inputType="phone" />
     </android.support.design.widget.TextInputLayout>
 

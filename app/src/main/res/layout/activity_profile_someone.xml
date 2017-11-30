@@ -2,11 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.ProfileFragment">
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Fragment.ProfileFragment">
 
     <LinearLayout
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -28,8 +26,8 @@
             android:id="@+id/fullname_someone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bawonsak Petchbunjerdkul"
-            android:textSize="20dp"
+            android:text="@string/name"
+            android:textSize="20sp"
             />
 
 
@@ -47,8 +45,8 @@
                 android:id="@+id/phonePro_someone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="097-086-2773"
-                android:textSize="20dp"
+                android:text="@string/phones"
+                android:textSize="20sp"
                 />
         </LinearLayout>
         <RelativeLayout
@@ -67,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="0"
+                android:text="@string/_0"
                 android:textColor="#ff00d0"
                 android:textAlignment="center" />
 
@@ -78,7 +76,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ให้คะแนนผู้ใช้ ?"
+            android:text="@string/ratingUp"
             android:textColor="#ff4656"
             android:background="@drawable/button_selector"
             />

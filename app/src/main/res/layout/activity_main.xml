@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.MainActivity"
+    tools:context="kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Activity.MainActivity"
     android:orientation="vertical">
 
     <FrameLayout
@@ -43,7 +43,7 @@
                 android:id="@+id/homeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event"
+                android:text="@string/event"
                 android:layout_gravity="center"
                 />
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:id="@+id/eventTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coming Soon"
+                android:text="@string/coming_soon"
                 android:layout_gravity="center"
                 />
 
@@ -92,7 +92,7 @@
                 android:id="@+id/ratingTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rating"
+                android:text="@string/rating"
                 android:layout_gravity="center"
                 />
         </LinearLayout>
@@ -114,7 +114,7 @@
                 android:id="@+id/profileTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:layout_gravity="center"
                 />
         </LinearLayout>

@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:text="Bawonsak Petchbunjerdkul" />
+            android:text="@string/name" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:id="@+id/phoneIt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="097-086-2773" />
+                android:text="@string/phones" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="0"
+                    android:text="@string/_0"
                     android:textColor="#ff00d0"
                     android:textAlignment="center" />
             </RelativeLayout>

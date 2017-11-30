@@ -28,10 +28,6 @@ public class Event implements Parcelable {
         return realName;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
     private List<String> toBuy = Collections.emptyList(), toGo = Collections.emptyList();
 
     public Event(String realName, String name, String url, String detail, String date, String time, String location, String type, String fulldate, String linkShare) {
@@ -78,18 +74,6 @@ public class Event implements Parcelable {
         return linkShare;
     }
 
-    public void setLinkShare(String linkShare) {
-        this.linkShare = linkShare;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getName() {
         return name;
     }
@@ -102,24 +86,12 @@ public class Event implements Parcelable {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
     public String getDate() {
         return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getTime() {
@@ -132,10 +104,6 @@ public class Event implements Parcelable {
 
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public List<String> getToBuy() {
@@ -158,12 +126,10 @@ public class Event implements Parcelable {
         return fulldate;
     }
 
-    public void setFulldate(String fulldate) {
-        this.fulldate = fulldate;
-    }
     public void addToGo(String username){
         toGo.add(username);
     }
+
     public void addToBuy(String username){
         toBuy.add(username);
     }

@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import kmitl.mobile.project.bawonsak58070074.tradeevent.controller.LoginActivity;
+import kmitl.mobile.project.bawonsak58070074.tradeevent.controller.Activity.LoginActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
